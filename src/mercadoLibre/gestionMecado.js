@@ -10,21 +10,28 @@ export const gestionMercadoLibre = async () => {
 
     try {
         
+
+
+       
+        
+
         console.log("Iniciando navegador...");
 
-        //!1. INICO DE NAVEGACIÓN
+        //1. INICO DE NAVEGACIÓN
         const browser = await puppeteer.launch(browserConfig)
         const page = await browser.newPage()
 
-        //!2. NAVEGAR A LA URL
+        //2. NAVEGAR A LA URL
         console.log("Navegando a la URL...");
         await page.goto(process.env.BASE_URL)
 
-        //!3. BUSCAR CATEGORIAS
+        //3. BUSCAR CATEGORIAS
+
         console.log("Buscando categorías...");
         await page.waitForSelector(MERCADO_LIBRE.CATEGORIA.categorias)
         await page.click(MERCADO_LIBRE.CATEGORIA.categorias)
         console.log("Encontroron las categorias");
+
         await timeOut(2000);
 
         //!4. SELECCIONAR CATEGORIA
@@ -69,6 +76,7 @@ export const gestionMercadoLibre = async () => {
         } catch (error) {
             console.error("Error al seleccionar la categoria supermercado:", error);
         }
+
         
         await timeOut(5000)
         

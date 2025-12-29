@@ -1,6 +1,7 @@
 export const MERCADO_LIBRE = {
     CATEGORIA: {
         categorias: "body > header > div > div.nav-area.nav-bottom-area.nav-center-area > div > ul > li:nth-child(1) > a"
+
     },
     SUBCATEGORIA: {
         supermercado: "body > header > div > div.nav-area.nav-bottom-area.nav-center-area > div > ul > li:nth-child(1) > div > ul > li:nth-child(2) > a",
@@ -12,3 +13,5 @@ export const MERCADO_LIBRE = {
         price: "div.poly-component__price .andes-money-amount__fraction"
     }
 }
+
+
