@@ -10,7 +10,7 @@ const Categoria = sequelizeDB.define(
         slug: {type: DataTypes.STRING, allowNull: false, unique: true},
         url: {type: DataTypes.STRING, allowNull: false, unique: true},
         level: {type: DataTypes.INTEGER, allowNull: false},
-        parent_id: {type: DataTypes.INTEGER, allowNull: false},
+        parent_id: {type: DataTypes.INTEGER, allowNull: true, defaultValue: null},
         source: {type: DataTypes.STRING, allowNull: false}
     }
 )
