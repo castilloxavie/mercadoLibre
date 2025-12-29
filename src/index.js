@@ -1,3 +1,3 @@
-import { gestionMercadoLibre } from "./mercadoLibre/gestionMecado";
+import { gestionMercadoLibre } from "./mercadoLibre/gestionMecado.js";
 
 gestionMercadoLibre()
