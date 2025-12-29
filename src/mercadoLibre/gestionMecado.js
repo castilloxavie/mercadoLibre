@@ -10,11 +10,6 @@ export const gestionMercadoLibre = async () => {
 
     try {
         
-
-
-       
-        
-
         console.log("Iniciando navegador...");
 
         //1. INICO DE NAVEGACIÓN
@@ -49,26 +44,43 @@ export const gestionMercadoLibre = async () => {
 
 
             //supermercado- extraccion de datos
-            await page.waitForSelector(MERCADO_LIBRE.SUBCATEGORIA.productos)
-            const productos = await page.$$eval(MERCADO_LIBRE.SUBCATEGORIA.productos, (cards, selectors) => {
-                return cards.map(card => {
-                    const titleLink = card.querySelector(selectors.name);
-                    const img = card.querySelector(selectors.description);
-                    const priceSpan = card.querySelector(selectors.price);
-                    return {
-                        name: titleLink ? titleLink.textContent.trim() : '',
-                        description: img ? img.alt : '',
-                        url: titleLink ? titleLink.href : '',
-                        price: priceSpan ? priceSpan.textContent.trim() : '',
-                        level: 2,
-                        parent_id: 1,
-                        source: "Mercado Libre"
-                    };
-                });
-            }, MERCADO_LIBRE.SUBCATEGORIA);
+            let pageNumber = 1;
+            let hasNextPage = true;
 
-            console.log("Encontraron los productos");
-            console.log(JSON.stringify(productos, null, 2));
+            while (hasNextPage) {
+                await page.waitForSelector(MERCADO_LIBRE.SUBCATEGORIA.productos);
+                const productos = await page.$$eval(MERCADO_LIBRE.SUBCATEGORIA.productos, (cards, selectors) => {
+                    return cards.map(card => {
+                        const titleLink = card.querySelector(selectors.name);
+                        const img = card.querySelector(selectors.description);
+                        const priceSpan = card.querySelector(selectors.price);
+                        return {
+                            name: titleLink ? titleLink.textContent.trim() : '',
+                            description: img ? img.alt : '',
+                            url: titleLink ? titleLink.href : '',
+                            price: priceSpan ? priceSpan.textContent.trim() : '',
+                            level: 2,
+                            parent_id: 1,
+                            source: "Mercado Libre"
+                        };
+                    });
+                }, MERCADO_LIBRE.SUBCATEGORIA);
+
+                console.log(`Página ${pageNumber}: Encontraron ${productos.length} productos`);
+                console.log(JSON.stringify(productos, null, 2));
+
+                
+                const nextButton = await page.$(MERCADO_LIBRE.SUBCATEGORIA.siguiente);
+                if (nextButton) {
+                    await nextButton.click();
+                    await page.waitForNavigation({ waitUntil: 'networkidle2' });
+                    pageNumber++;
+                } else {
+                    hasNextPage = false;
+                }
+            }
+
+            console.log("Extracción completada de todas las páginas.");
            
 
 
